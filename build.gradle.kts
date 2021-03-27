@@ -16,6 +16,13 @@ repositories {
 }
 
 dependencies {
+	// ktor client dep
+	val ktorVersion = "1.5.2"
+	implementation("io.ktor:ktor-client-core:$ktorVersion")
+	implementation("io.ktor:ktor-client-cio:$ktorVersion")
+	// ktor serialization
+	implementation ("io.ktor:ktor-client-gson:$ktorVersion")
+
 	implementation("com.expediagroup:graphql-kotlin-spring-server:4.0.0-alpha.0")
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
