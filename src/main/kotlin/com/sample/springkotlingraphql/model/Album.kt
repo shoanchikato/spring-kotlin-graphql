@@ -1,8 +1,7 @@
 package com.sample.springkotlingraphql.model
 
-data class Post(
+class Album(
         val userId: Int,
-        val id: Int? = null,
+        val id: Int,
         val title: String,
-        val body: String,
 )

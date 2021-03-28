@@ -18,8 +18,12 @@ repositories {
 dependencies {
 	// ktor client dep
 	val ktorVersion = "1.5.2"
+	val logback_version = "1.2.3"
 	implementation("io.ktor:ktor-client-core:$ktorVersion")
 	implementation("io.ktor:ktor-client-cio:$ktorVersion")
+	implementation("ch.qos.logback:logback-classic:$logback_version")
+	implementation("io.ktor:ktor-client-logging:$ktorVersion")
+
 	// ktor serialization
 	implementation ("io.ktor:ktor-client-gson:$ktorVersion")
 

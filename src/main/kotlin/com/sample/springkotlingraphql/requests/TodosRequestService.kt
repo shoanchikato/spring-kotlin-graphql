@@ -8,29 +8,26 @@ import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.request.get
 import org.springframework.stereotype.Component
 
-
 @Component
-class PostRequestService {
+class TodosRequestService {
 
     companion object {
         const val BASE_URL = "https://jsonplaceholder.typicode.com"
+        const val PATH_URL = "todos"
     }
 
-    suspend fun requestById(id: Int): List<Post> {
+    suspend fun requestById(id: Int): Post {
 
         val httpClient = HttpClient(CIO) {
             install(JsonFeature) {
                 serializer = GsonSerializer() {
                     setPrettyPrinting()
-//                disableHtmlEscaping()
                 }
             }
         }
 
-        val url = "$BASE_URL/posts/$id"
-        val data = httpClient.get<Post>(url)
-
-        val response = listOf(data)
+        val url = "$BASE_URL/$PATH_URL/$id"
+        val response = httpClient.get<Post>(url)
 
         httpClient.close()
 
@@ -50,7 +47,7 @@ class PostRequestService {
 
         val qPage = page ?: 1
         val qLimit = limit ?: 20
-        val url = "$BASE_URL/posts?_page=$qPage&_limit=$qLimit"
+        val url = "$BASE_URL/$PATH_URL?_page=$qPage&_limit=$qLimit"
 
         val response = httpClient.get<List<Post>>(url)
 

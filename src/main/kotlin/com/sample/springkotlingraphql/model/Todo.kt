@@ -1,8 +1,8 @@
 package com.sample.springkotlingraphql.model
 
-data class Post(
+data class Todo(
         val userId: Int,
-        val id: Int? = null,
+        val id: Int,
         val title: String,
-        val body: String,
+        val completed: Boolean,
 )
