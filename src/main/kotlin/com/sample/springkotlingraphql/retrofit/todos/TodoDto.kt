@@ -1,16 +1,13 @@
-package com.sample.springkotlingraphql.model
+package com.sample.springkotlingraphql.retrofit.todos
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class Todo(
+data class TodoDto(
+
         @SerializedName("userId")
         @Expose
         val userId: Int,
-
-        @SerializedName("id")
-        @Expose
-        val id: Int,
 
         @SerializedName("title")
         @Expose

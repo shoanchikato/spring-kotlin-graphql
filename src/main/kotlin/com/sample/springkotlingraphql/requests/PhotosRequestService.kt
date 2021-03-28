@@ -1,58 +1,32 @@
 package com.sample.springkotlingraphql.requests
 
 import com.sample.springkotlingraphql.model.Photo
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.features.json.GsonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.request.get
+import com.sample.springkotlingraphql.retrofit.photos.PhotoDto
+import com.sample.springkotlingraphql.retrofit.photos.RetrofitPhotoService
 import org.springframework.stereotype.Component
 
 @Component
-class PhotosRequestService {
+class PhotosRequestService(
+        private val retrofitPhotoService: RetrofitPhotoService
+) {
 
-    companion object {
-        const val BASE_URL = "https://jsonplaceholder.typicode.com"
-        const val PATH_URL = "photos"
-    }
+    suspend fun getById(
+            id: Int
+    ) = retrofitPhotoService.retrofit.getById(id = id)
 
-    suspend fun requestById(id: Int): Photo {
-
-        val httpClient = HttpClient(CIO) {
-            install(JsonFeature) {
-                serializer = GsonSerializer() {
-                    setPrettyPrinting()
-                }
-            }
-        }
-
-        val url = "$BASE_URL/$PATH_URL/$id"
-        val response = httpClient.get<Photo>(url)
-
-        httpClient.close()
-
-        return response
-    }
-
-    suspend fun requestAll(page: Int?, limit: Int?): List<Photo> {
-
-        val httpClient = HttpClient(CIO) {
-            install(JsonFeature) {
-                serializer = GsonSerializer() {
-                    setPrettyPrinting()
-//                disableHtmlEscaping()
-                }
-            }
-        }
-
+    suspend fun getAll(page: Int?, limit: Int?): List<Photo> {
         val qPage = page ?: 1
         val qLimit = limit ?: 20
-        val url = "$BASE_URL/$PATH_URL?_page=$qPage&_limit=$qLimit"
 
-        val response = httpClient.get<List<Photo>>(url)
-
-        httpClient.close()
-
-        return response
+        return retrofitPhotoService.retrofit.getAll(page = qPage, limit = qLimit)
     }
+
+    suspend fun create(
+            photo: PhotoDto,
+    ) = retrofitPhotoService.retrofit.create(photo = photo)
+
+    suspend fun update(photo: Photo) = retrofitPhotoService.retrofit.update(
+            id = photo.id,
+            photo = photo
+    )
 }

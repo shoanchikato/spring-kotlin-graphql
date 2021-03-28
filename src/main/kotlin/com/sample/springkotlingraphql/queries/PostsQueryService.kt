@@ -5,17 +5,17 @@ import com.sample.springkotlingraphql.requests.PostsRequestService
 import org.springframework.stereotype.Component
 
 @Component
-class PostQueryService(
+class PostsQueryService(
         private val postsRequestService: PostsRequestService,
 ) : Query {
 
     suspend fun posts(
             page: Int?,
             limit: Int?,
-    ) = postsRequestService.requestAll(page, limit)
+    ) = postsRequestService.getAll(page, limit)
 
     suspend fun post(
             id: Int,
-    ) = postsRequestService.requestById(id)
+    ) = postsRequestService.getById(id)
 
 }

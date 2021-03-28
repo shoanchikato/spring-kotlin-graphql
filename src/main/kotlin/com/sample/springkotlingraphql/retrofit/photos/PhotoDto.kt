@@ -1,17 +1,13 @@
-package com.sample.springkotlingraphql.model
+package com.sample.springkotlingraphql.retrofit.photos
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class Photo(
+data class PhotoDto(
 
         @SerializedName("albumId")
         @Expose
         val albumId: Int,
-
-        @SerializedName("id")
-        @Expose
-        val id: Int,
 
         @SerializedName("title")
         @Expose
@@ -25,5 +21,4 @@ data class Photo(
         @Expose
         val thumbnailUrl: String,
 
-
-)
+        )

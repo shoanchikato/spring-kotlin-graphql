@@ -12,10 +12,10 @@ class CommentsQueryService(
     suspend fun comments(
             page: Int?,
             limit: Int?,
-    ) = commentsRequestService.requestAll(page, limit)
+    ) = commentsRequestService.getAll(page, limit)
 
     suspend fun comment(
             id: Int,
-    ) = commentsRequestService.requestById(id)
+    ) = commentsRequestService.getById(id)
 
 }

@@ -12,10 +12,10 @@ class PhotosQueryService(
     suspend fun photos(
             page: Int?,
             limit: Int?,
-    ) = photosRequestService.requestAll(page, limit)
+    ) = photosRequestService.getAll(page, limit)
 
     suspend fun photo(
             id: Int,
-    ) = photosRequestService.requestById(id)
+    ) = photosRequestService.getById(id)
 
 }

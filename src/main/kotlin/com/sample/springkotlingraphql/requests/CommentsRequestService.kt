@@ -1,59 +1,33 @@
 package com.sample.springkotlingraphql.requests
 
 import com.sample.springkotlingraphql.model.Comment
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.features.json.GsonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.request.get
+import com.sample.springkotlingraphql.retrofit.comments.CommentDto
+import com.sample.springkotlingraphql.retrofit.comments.RetrofitCommentService
 import org.springframework.stereotype.Component
 
 
 @Component
-class CommentsRequestService {
+class CommentsRequestService(
+        private val retrofitCommentService: RetrofitCommentService
+) {
 
-    companion object {
-        const val BASE_URL = "https://jsonplaceholder.typicode.com"
-        const val PATH_URL = "comments"
-    }
+    suspend fun getById(
+            id: Int
+    ) = retrofitCommentService.retrofit.getById(id = id)
 
-    suspend fun requestById(id: Int): Comment {
-
-        val httpClient = HttpClient(CIO) {
-            install(JsonFeature) {
-                serializer = GsonSerializer() {
-                    setPrettyPrinting()
-//                disableHtmlEscaping()
-                }
-            }
-        }
-
-        val url = "$BASE_URL/$PATH_URL/$id"
-        val response = httpClient.get<Comment>(url)
-
-        httpClient.close()
-
-        return response
-    }
-
-    suspend fun requestAll(page: Int?, limit: Int?): List<Comment> {
-
-        val httpClient = HttpClient(CIO) {
-            install(JsonFeature) {
-                serializer = GsonSerializer() {
-                    setPrettyPrinting()
-                }
-            }
-        }
-
+    suspend fun getAll(page: Int?, limit: Int?): List<Comment> {
         val qPage = page ?: 1
         val qLimit = limit ?: 20
-        val url = "$BASE_URL/$PATH_URL?_page=$qPage&_limit=$qLimit"
 
-        val response = httpClient.get<List<Comment>>(url)
-
-        httpClient.close()
-
-        return response
+        return retrofitCommentService.retrofit.getAll(page = qPage, limit = qLimit)
     }
+
+    suspend fun create(
+            comment: CommentDto,
+    ) = retrofitCommentService.retrofit.create(comment = comment)
+
+    suspend fun update(comment: Comment) = retrofitCommentService.retrofit.update(
+            id = comment.id,
+            comment = comment
+    )
 }

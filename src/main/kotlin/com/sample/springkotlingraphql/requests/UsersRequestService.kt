@@ -1,57 +1,32 @@
 package com.sample.springkotlingraphql.requests
 
 import com.sample.springkotlingraphql.model.User
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.features.json.GsonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.request.get
+import com.sample.springkotlingraphql.retrofit.users.RetrofitUserService
+import com.sample.springkotlingraphql.retrofit.users.UserDto
 import org.springframework.stereotype.Component
 
 @Component
-class UsersRequestService {
+class UsersRequestService(
+        private val retrofitUserService: RetrofitUserService
+) {
 
-    companion object {
-        const val BASE_URL = "https://jsonplaceholder.typicode.com"
-        const val PATH_URL = "users"
-    }
+    suspend fun getById(
+            id: Int
+    ) = retrofitUserService.retrofit.getById(id = id)
 
-    suspend fun requestById(id: Int): User {
-
-        val httpClient = HttpClient(CIO) {
-            install(JsonFeature) {
-                serializer = GsonSerializer() {
-                    setPrettyPrinting()
-                }
-            }
-        }
-
-        val url = "$BASE_URL/$PATH_URL/$id"
-        val response = httpClient.get<User>(url)
-
-        httpClient.close()
-
-        return response
-    }
-
-    suspend fun requestAll(page: Int?, limit: Int?): List<User> {
-
-        val httpClient = HttpClient(CIO) {
-            install(JsonFeature) {
-                serializer = GsonSerializer() {
-                    setPrettyPrinting()
-                }
-            }
-        }
-
+    suspend fun getAll(page: Int?, limit: Int?): List<User> {
         val qPage = page ?: 1
         val qLimit = limit ?: 20
-        val url = "$BASE_URL/$PATH_URL?_page=$qPage&_limit=$qLimit"
 
-        val response = httpClient.get<List<User>>(url)
-
-        httpClient.close()
-
-        return response
+        return retrofitUserService.retrofit.getAll(page = qPage, limit = qLimit)
     }
+
+    suspend fun create(
+            user: UserDto,
+    ) = retrofitUserService.retrofit.create(user = user)
+
+    suspend fun update(user: User) = retrofitUserService.retrofit.update(
+            id = user.id,
+            user = user
+    )
 }

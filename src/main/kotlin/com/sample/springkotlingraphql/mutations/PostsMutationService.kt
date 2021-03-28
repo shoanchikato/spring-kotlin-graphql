@@ -1,7 +1,9 @@
 package com.sample.springkotlingraphql.mutations
 
 import com.expediagroup.graphql.spring.operations.Mutation
+import com.sample.springkotlingraphql.model.Post
 import com.sample.springkotlingraphql.requests.PostsRequestService
+import com.sample.springkotlingraphql.retrofit.posts.PostDto
 import org.springframework.stereotype.Component
 
 @Component
@@ -10,9 +12,11 @@ class PostsMutationService(
 ) : Mutation {
 
     suspend fun createPost(
-            title: String,
-            body: String,
-            userId: Int,
-    ) = postsRequestService.create(title, body, userId)
+            post: PostDto,
+    ) = postsRequestService.create(post = post)
+
+    suspend fun updatePost(
+            post: Post
+    ) = postsRequestService.update(post = post)
 
 }
