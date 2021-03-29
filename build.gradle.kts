@@ -26,7 +26,10 @@ dependencies {
 	implementation("com.squareup.okhttp3:okhttp:$okhttp")
 	implementation("com.squareup.okhttp3:logging-interceptor:$okhttp")
 
+	// graphQL
 	implementation("com.expediagroup:graphql-kotlin-spring-server:4.0.0-alpha.0")
+	
+	// string
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
