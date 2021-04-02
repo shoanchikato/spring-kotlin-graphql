@@ -1,9 +1,11 @@
 package com.sample.springkotlingraphql.requests
 
 import com.sample.springkotlingraphql.ktorClient.KtorClientService
+import com.sample.springkotlingraphql.ktorClient.dto.PostDto
 import com.sample.springkotlingraphql.model.Post
 import io.ktor.client.request.get
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
@@ -37,22 +39,33 @@ class PostsRequestService(val ktorClientService: KtorClientService) {
     }
 
     suspend fun create(
-            title: String,
-            body: String,
-            userId: Int,
+        post: PostDto,
     ): Post {
 
         val url = "$BASE_URL/$PATH_URL"
 
         val response = ktorClientService.httpClient.post<Post>(
-                body = Post(userId = userId, body = body, title = title)
+            body = post
         ) {
             url(url)
             contentType(ContentType.Application.Json)
         }
 
-        println("body: ${Post(userId = userId, body = body, title = title, id =3)}")
-        println("create: $response")
+        return response
+    }
+
+    suspend fun update(
+        post: Post,
+    ): Post {
+
+        val url = "$BASE_URL/$PATH_URL/${post.id}"
+
+        val response = ktorClientService.httpClient.put<Post>(
+            body = post,
+        ) {
+            url(url)
+            contentType(ContentType.Application.Json)
+        }
 
         return response
     }
