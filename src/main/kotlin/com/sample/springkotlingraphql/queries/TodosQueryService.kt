@@ -12,10 +12,10 @@ class TodosQueryService(
     suspend fun todos(
             page: Int?,
             limit: Int?,
-    ) = todosRequestService.requestAll(page, limit)
+    ) = todosRequestService.getAll(page, limit)
 
     suspend fun todo(
             id: Int,
-    ) = todosRequestService.requestById(id)
+    ) = todosRequestService.getById(id)
 
 }

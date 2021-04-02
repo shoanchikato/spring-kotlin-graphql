@@ -19,7 +19,7 @@ class TodosRequestService(val ktorClientService: KtorClientService) {
         const val PATH_URL = "todos"
     }
 
-    suspend fun requestById(id: Int): Todo {
+    suspend fun getById(id: Int): Todo {
 
         val url = "$BASE_URL/$PATH_URL/$id"
         val response = ktorClientService.httpClient.get<Todo>(url)
@@ -27,7 +27,7 @@ class TodosRequestService(val ktorClientService: KtorClientService) {
         return response
     }
 
-    suspend fun requestAll(page: Int?, limit: Int?): List<Todo> {
+    suspend fun getAll(page: Int?, limit: Int?): List<Todo> {
 
         val qPage = page ?: 1
         val qLimit = limit ?: 20

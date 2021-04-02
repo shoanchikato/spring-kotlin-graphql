@@ -12,10 +12,10 @@ class AlbumsQueryService(
     suspend fun albums(
             page: Int?,
             limit: Int?,
-    ) = albumsRequestService.requestAll(page, limit)
+    ) = albumsRequestService.getAll(page, limit)
 
     suspend fun album(
             id: Int,
-    ) = albumsRequestService.requestById(id)
+    ) = albumsRequestService.getById(id)
 
 }

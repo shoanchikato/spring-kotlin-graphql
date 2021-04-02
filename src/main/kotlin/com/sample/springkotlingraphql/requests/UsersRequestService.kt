@@ -19,14 +19,14 @@ class UsersRequestService(val ktorClientService: KtorClientService) {
         const val PATH_URL = "users"
     }
 
-    suspend fun requestById(id: Int): User {
+    suspend fun getById(id: Int): User {
         val url = "$BASE_URL/$PATH_URL/$id"
         val response = ktorClientService.httpClient.get<User>(url)
 
         return response
     }
 
-    suspend fun requestAll(page: Int?, limit: Int?): List<User> {
+    suspend fun getAll(page: Int?, limit: Int?): List<User> {
 
         val qPage = page ?: 1
         val qLimit = limit ?: 20

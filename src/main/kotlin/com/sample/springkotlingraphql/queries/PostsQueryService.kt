@@ -12,10 +12,10 @@ class PostQueryService(
     suspend fun posts(
             page: Int?,
             limit: Int?,
-    ) = postsRequestService.requestAll(page, limit)
+    ) = postsRequestService.getAll(page, limit)
 
     suspend fun post(
             id: Int,
-    ) = postsRequestService.requestById(id)
+    ) = postsRequestService.getById(id)
 
 }

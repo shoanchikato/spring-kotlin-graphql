@@ -12,10 +12,10 @@ class UsersQueryService(
     suspend fun users(
             page: Int?,
             limit: Int?,
-    ) = usersRequestService.requestAll(page, limit)
+    ) = usersRequestService.getAll(page, limit)
 
     suspend fun user(
             id: Int,
-    ) = usersRequestService.requestById(id)
+    ) = usersRequestService.getById(id)
 
 }

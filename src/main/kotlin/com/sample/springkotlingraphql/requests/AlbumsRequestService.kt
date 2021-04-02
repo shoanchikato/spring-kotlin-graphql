@@ -19,7 +19,7 @@ class AlbumsRequestService(val ktorClientService : KtorClientService) {
         const val PATH_URL = "albums"
     }
 
-    suspend fun requestById(id: Int): Album {
+    suspend fun getById(id: Int): Album {
 
         val url = "$BASE_URL/$PATH_URL/$id"
         val response = ktorClientService.httpClient.get<Album>(url)
@@ -27,7 +27,7 @@ class AlbumsRequestService(val ktorClientService : KtorClientService) {
         return response
     }
 
-    suspend fun requestAll(page: Int?, limit: Int?): List<Album> {
+    suspend fun getAll(page: Int?, limit: Int?): List<Album> {
 
         val qPage = page ?: 1
         val qLimit = limit ?: 20

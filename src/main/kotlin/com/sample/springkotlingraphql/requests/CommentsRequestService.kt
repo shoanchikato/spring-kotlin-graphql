@@ -20,7 +20,7 @@ class CommentsRequestService(val ktorClientService: KtorClientService) {
         const val PATH_URL = "comments"
     }
 
-    suspend fun requestById(id: Int): Comment {
+    suspend fun getById(id: Int): Comment {
 
         val url = "$BASE_URL/$PATH_URL/$id"
         val response = ktorClientService.httpClient.get<Comment>(url)
@@ -28,7 +28,7 @@ class CommentsRequestService(val ktorClientService: KtorClientService) {
         return response
     }
 
-    suspend fun requestAll(page: Int?, limit: Int?): List<Comment> {
+    suspend fun getAll(page: Int?, limit: Int?): List<Comment> {
 
         val qPage = page ?: 1
         val qLimit = limit ?: 20
