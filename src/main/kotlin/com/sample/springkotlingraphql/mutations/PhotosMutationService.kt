@@ -1,9 +1,9 @@
 package com.sample.springkotlingraphql.mutations
 
 import com.expediagroup.graphql.spring.operations.Mutation
+import com.sample.springkotlingraphql.ktorClient.dto.PhotoDto
 import com.sample.springkotlingraphql.model.Photo
 import com.sample.springkotlingraphql.requests.PhotosRequestService
-import com.sample.springkotlingraphql.retrofit.photos.PhotoDto
 import org.springframework.stereotype.Component
 
 @Component
@@ -12,7 +12,7 @@ class PhotosMutationService(
 ) : Mutation {
 
     suspend fun createPhoto(
-            photo: PhotoDto,
+        photo: PhotoDto,
     ) = photosRequestService.create(photo = photo)
 
     suspend fun updatePhoto(

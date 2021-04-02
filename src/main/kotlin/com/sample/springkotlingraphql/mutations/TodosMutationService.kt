@@ -1,9 +1,9 @@
 package com.sample.springkotlingraphql.mutations
 
 import com.expediagroup.graphql.spring.operations.Mutation
+import com.sample.springkotlingraphql.ktorClient.dto.TodoDto
 import com.sample.springkotlingraphql.model.Todo
 import com.sample.springkotlingraphql.requests.TodosRequestService
-import com.sample.springkotlingraphql.retrofit.todos.TodoDto
 import org.springframework.stereotype.Component
 
 @Component
@@ -12,7 +12,7 @@ class TodosMutationService(
 ) : Mutation {
 
     suspend fun createTodo(
-            todo: TodoDto,
+        todo: TodoDto,
     ) = todosRequestService.create(todo = todo)
 
     suspend fun updateTodo(

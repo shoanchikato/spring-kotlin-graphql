@@ -1,35 +1,72 @@
 package com.sample.springkotlingraphql.requests
 
+import com.sample.springkotlingraphql.ktorClient.KtorClientService
+import com.sample.springkotlingraphql.ktorClient.dto.PostDto
 import com.sample.springkotlingraphql.model.Post
-import com.sample.springkotlingraphql.retrofit.posts.PostDto
-import com.sample.springkotlingraphql.retrofit.posts.RetrofitPostService
+import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.request.put
+import io.ktor.client.request.url
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import org.springframework.stereotype.Component
 
 
 @Component
-class PostsRequestService(
-        private val retrofitPostService: RetrofitPostService
-) {
+class PostsRequestService(val ktorClientService: KtorClientService) {
 
-    suspend fun getById(
-            id: Int
-    ) = retrofitPostService.retrofit.getById(id = id)
+    companion object {
+        const val BASE_URL = "https://jsonplaceholder.typicode.com"
+        const val PATH_URL = "posts"
+    }
+
+    suspend fun getById(id: Int): Post {
+        val url = "$BASE_URL/$PATH_URL/$id"
+        val response = ktorClientService.httpClient.get<Post>(url)
+
+        return response
+    }
 
     suspend fun getAll(page: Int?, limit: Int?): List<Post> {
+
         val qPage = page ?: 1
         val qLimit = limit ?: 20
+        val url = "$BASE_URL/$PATH_URL?_page=$qPage&_limit=$qLimit"
 
-        return retrofitPostService.retrofit.getAll(page = qPage, limit = qLimit)
+        val response = ktorClientService.httpClient.get<List<Post>>(url)
+
+        return response
     }
 
     suspend fun create(
-            post: PostDto,
-    ) = retrofitPostService.retrofit.create(post = post)
+        post: PostDto,
+    ): Post {
+
+        val url = "$BASE_URL/$PATH_URL"
+
+        val response = ktorClientService.httpClient.post<Post>(
+            body = post
+        ) {
+            url(url)
+            contentType(ContentType.Application.Json)
+        }
+
+        return response
+    }
 
     suspend fun update(
-            post: Post,
-    ) = retrofitPostService.retrofit.update(
-            id = post.id,
-            post = post,
-    )
+        post: Post,
+    ): Post {
+
+        val url = "$BASE_URL/$PATH_URL/${post.id}"
+
+        val response = ktorClientService.httpClient.put<Post>(
+            body = post,
+        ) {
+            url(url)
+            contentType(ContentType.Application.Json)
+        }
+
+        return response
+    }
 }
